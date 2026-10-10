@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Mis prácticas de programación</title>
+
+    <!-- Librería de iconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         * {
@@ -13,86 +18,153 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f8f0ff, #fceaf3);
-            color: #352449;
+            background: linear-gradient(135deg, #f3f5f3, #e9eeea);
+            color: #35463a;
+            min-height: 100vh;
         }
 
+        /* Encabezado */
         header {
             text-align: center;
-            padding: 55px 20px 35px;
+            padding: 50px 20px 35px;
         }
 
         header h1 {
-            color: #7542bd;
-            font-size: 34px;
+            color: #356b48;
+            font-size: 32px;
             margin-bottom: 12px;
+            font-weight: 700;
         }
 
         header p {
-            color: #756681;
+            color: #737d75;
             font-size: 16px;
+            margin: 0;
         }
 
+        /* Contenido principal */
         main {
-            max-width: 950px;
+            max-width: 1000px;
             margin: auto;
             padding: 20px;
         }
 
+        /* Tarjetas de actividades */
         .actividades {
             display: grid;
             grid-template-columns:
-                repeat(auto-fit, minmax(230px, 1fr));
-            gap: 22px;
+                repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
         }
 
         .tarjeta {
-            background: white;
-            padding: 28px 22px;
-            border-radius: 20px;
+            background: #ffffff;
+            padding: 30px 22px;
+            border-radius: 18px;
             text-align: center;
-            box-shadow: 0 6px 20px #68418b18;
-            transition: transform 0.2s;
+            border: 1px solid #e5ebe5;
+            box-shadow: 0 5px 18px rgba(44, 79, 53, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .tarjeta:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(44, 79, 53, 0.14);
         }
 
+        /* Iconos */
         .icono {
-            font-size: 42px;
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            background: #e7f0e8;
+            color: #356b48;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        .icono svg {
+            width: 30px;
+            height: 30px;
+            stroke-width: 1.8;
+        }
+
+        /* Títulos y descripciones */
         .tarjeta h2 {
             font-size: 20px;
-            color: #6338a8;
+            color: #356b48;
+            margin: 15px 0 12px;
         }
 
         .tarjeta p {
-            color: #756681;
-            min-height: 40px;
+            color: #737d75;
+            min-height: 42px;
             line-height: 1.5;
+            font-size: 14px;
         }
 
+        /* Botones */
         .boton {
-            display: inline-block;
-            background: #7542bd;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #548766;
             color: white;
             text-decoration: none;
             padding: 12px 20px;
-            border-radius: 10px;
-            margin-top: 10px;
+            border-radius: 9px;
+            margin-top: 12px;
+            font-size: 14px;
+            transition: background 0.2s;
         }
 
         .boton:hover {
-            background: #59308f;
+            background: #356b48;
         }
 
+        .boton svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .boton:focus-visible {
+            outline: 3px solid #8eb99a;
+            outline-offset: 4px;
+        }
+
+        /* Pie de página */
         footer {
             text-align: center;
             padding: 35px 15px;
-            color: #756681;
+            color: #737d75;
             font-size: 14px;
+        }
+
+        /* Adaptación para celulares */
+        @media (max-width: 600px) {
+            header {
+                padding: 35px 15px 20px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            header p {
+                font-size: 14px;
+            }
+
+            main {
+                padding: 15px;
+            }
+
+            .actividades {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
         }
     </style>
 </head>
@@ -100,48 +172,85 @@
 <body>
 
     <header>
-        <h1>Mis prácticas de programación 💜</h1>
-        <p>Bienvenido/a a mi espacio de actividades web</p>
+        <h1>Mis prácticas de programación</h1>
+        <p>Bienvenido/a a mi espacio de actividades web.</p>
     </header>
 
     <main>
+
         <section class="actividades">
 
+            <!-- Calculadora de edad -->
             <article class="tarjeta">
-                <div class="icono">🎂</div>
-                <h2>Calculador de edad</h2>
-                <p>Descubre tu edad de una manera rápida y sencilla.</p>
-                <a class="boton"
-                   href="Calculador%20de%20edad.html">
-                   Abrir actividad
-                </a>
-            </article>
 
-            <article class="tarjeta">
-                <div class="icono">🌡️</div>
-                <h2>Convertidor de temperatura</h2>
-                <p>Realiza conversiones de temperatura fácilmente.</p>
-                <a class="boton"
-                   href="Convertidor%20de%20temperatura.html">
-                   Abrir actividad
-                </a>
-            </article>
+                <div class="icono">
+                    <i data-lucide="calendar-days"></i>
+                </div>
 
-            <article class="tarjeta">
-                <div class="icono">📝</div>
-                <h2>Tareas</h2>
-                <p>Entra a mi actividad de tareas.</p>
-                <a class="boton" href="Tareas.html">
+                <h2>Calculadora de edad</h2>
+
+                <p>
+                    Descubre tu edad de una manera rápida y sencilla.
+                </p>
+
+                <a class="boton" href="calculadora%20de%20edad.html">
                     Abrir actividad
+                    <i data-lucide="arrow-right"></i>
                 </a>
+
+            </article>
+
+            <!-- Convertidor de temperatura -->
+            <article class="tarjeta">
+
+                <div class="icono">
+                    <i data-lucide="thermometer"></i>
+                </div>
+
+                <h2>Convertidor de temperatura</h2>
+
+                <p>
+                    Convierte temperaturas de forma rápida y sencilla.
+                </p>
+
+                <a class="boton" href="Convertidor%20de%20temperatura.html">
+                    Abrir actividad
+                    <i data-lucide="arrow-right"></i>
+                </a>
+
+            </article>
+
+            <!-- Tareas -->
+            <article class="tarjeta">
+
+                <div class="icono">
+                    <i data-lucide="clipboard-list"></i>
+                </div>
+
+                <h2>Tareas</h2>
+
+                <p>
+                    Consulta y realiza tus actividades escolares.
+                </p>
+
+                <a class="boton" href="tareas.html">
+                    Abrir actividad
+                    <i data-lucide="arrow-right"></i>
+                </a>
+
             </article>
 
         </section>
+
     </main>
 
     <footer>
-        Mi portafolio de prácticas web · HTML y CSS 💗
+        Mi portafolio de prácticas web · HTML y CSS
     </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
 </html>
