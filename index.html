@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis prácticas de programación</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8f0ff, #fceaf3);
+            color: #352449;
+        }
+
+        header {
+            text-align: center;
+            padding: 55px 20px 35px;
+        }
+
+        header h1 {
+            color: #7542bd;
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        header p {
+            color: #756681;
+            font-size: 16px;
+        }
+
+        main {
+            max-width: 950px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .actividades {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 28px 22px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 6px 20px #68418b18;
+            transition: transform 0.2s;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-5px);
+        }
+
+        .icono {
+            font-size: 42px;
+        }
+
+        .tarjeta h2 {
+            font-size: 20px;
+            color: #6338a8;
+        }
+
+        .tarjeta p {
+            color: #756681;
+            min-height: 40px;
+            line-height: 1.5;
+        }
+
+        .boton {
+            display: inline-block;
+            background: #7542bd;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .boton:hover {
+            background: #59308f;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 15px;
+            color: #756681;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Mis prácticas de programación 💜</h1>
+        <p>Bienvenido/a a mi espacio de actividades web</p>
+    </header>
+
+    <main>
+        <section class="actividades">
+
+            <article class="tarjeta">
+                <div class="icono">🎂</div>
+                <h2>Calculador de edad</h2>
+                <p>Descubre tu edad de una manera rápida y sencilla.</p>
+                <a class="boton"
+                   href="Calculador%20de%20edad.html">
+                   Abrir actividad
+                </a>
+            </article>
+
+            <article class="tarjeta">
+                <div class="icono">🌡️</div>
+                <h2>Convertidor de temperatura</h2>
+                <p>Realiza conversiones de temperatura fácilmente.</p>
+                <a class="boton"
+                   href="Convertidor%20de%20temperatura.html">
+                   Abrir actividad
+                </a>
+            </article>
+
+            <article class="tarjeta">
+                <div class="icono">📝</div>
+                <h2>Tareas</h2>
+                <p>Entra a mi actividad de tareas.</p>
+                <a class="boton" href="Tareas.html">
+                    Abrir actividad
+                </a>
+            </article>
+
+        </section>
+    </main>
+
+    <footer>
+        Mi portafolio de prácticas web · HTML y CSS 💗
+    </footer>
+
+</body>
+</html>
