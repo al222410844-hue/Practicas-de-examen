@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker - Mis tareas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaf5e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .contenedor {
+            background-color: white;
+            width: 90%;
+            max-width: 480px;
+            padding: 28px;
+            border: 1px solid #c8e6c9;
+            border-radius: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.12);
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #718071;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        .formulario {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        #nuevaTarea {
+            flex: 1;
+            min-width: 0;
+            padding: 12px;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        #nuevaTarea:focus {
+            border-color: #4caf50;
+        }
+
+        #agregar {
+            padding: 10px 17px;
+            background-color: #43a047;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 21px;
+        }
+
+        #agregar:hover {
+            background-color: #2e7d32;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 0;
+            border-bottom: 1px solid #e8f2e8;
+            font-size: 14px;
+        }
+
+        li input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #43a047;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .descripcion {
+            flex: 1;
+            overflow-wrap: anywhere;
+            color: #374737;
+        }
+
+        .completada {
+            text-decoration: line-through;
+            color: #9eaa9e;
+        }
+
+        .eliminar {
+            border: none;
+            background-color: #fbe9e7;
+            color: #c62828;
+            border-radius: 6px;
+            padding: 6px 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .eliminar:hover {
+            background-color: #ffcdd2;
+        }
+
+        .vacia {
+            color: #829182;
+            text-align: center;
+            font-size: 14px;
+            padding: 12px 0;
+        }
+
+        .pie {
+            text-align: center;
+            color: #7b907b;
+            font-size: 12px;
+            margin-top: 22px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>🌿 Mis tareas</h1>
+
+        <p class="subtitulo">
+            Organiza tu día, una tarea a la vez.
+        </p>
+
+        <form class="formulario" id="formulario">
+
+            <input
+                type="text"
+                id="nuevaTarea"
+                placeholder="Escribe una nueva tarea..."
+                autocomplete="off"
+            >
+
+            <button type="submit" id="agregar" title="Agregar tarea">
+                +
+            </button>
+
+        </form>
+
+        <ul id="listaTareas"></ul>
+
+        <p id="mensaje" class="vacia">
+            🌱 Aún no tienes tareas. ¡Agrega la primera!
+        </p>
+
+        <p class="pie">
+            Pequeños pasos también son grandes logros 💚
+        </p>
+
+    </div>
+
+    <script>
+        // Arreglo vacío para almacenar las tareas
+        let tareas = [];
+
+        const formulario = document.getElementById("formulario");
+        const nuevaTarea = document.getElementById("nuevaTarea");
+        const listaTareas = document.getElementById("listaTareas");
+        const mensaje = document.getElementById("mensaje");
+
+        // Función para actualizar la lista
+        function renderTasks() {
+
+            listaTareas.innerHTML = "";
+
+            // Separar las tareas pendientes y completadas
+            const pendientes = tareas.filter(
+                tarea => !tarea.completada
+            );
+
+            const completadas = tareas.filter(
+                tarea => tarea.completada
+            );
+
+            const tareasOrdenadas = pendientes.concat(completadas);
+
+            if (tareasOrdenadas.length === 0) {
+                mensaje.textContent =
+                    "🌱 Aún no tienes tareas. ¡Agrega la primera!";
+            } else {
+                mensaje.textContent = "";
+            }
+
+            tareasOrdenadas.forEach(function(tarea) {
+
+                const indice = tareas.indexOf(tarea);
+                const elemento = document.createElement("li");
+
+                // Casilla para completar la tarea
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = tarea.completada;
+
+                checkbox.addEventListener("change", function() {
+                    tareas[indice].completada = checkbox.checked;
+                    renderTasks();
+                });
+
+                // Texto de la tarea
+                const descripcion = document.createElement("span");
+                descripcion.textContent = tarea.descripcion;
+                descripcion.className = "descripcion";
+
+                if (tarea.completada) {
+                    descripcion.classList.add("completada");
+                }
+
+                // Botón para eliminar
+                const eliminar = document.createElement("button");
+                eliminar.type = "button";
+                eliminar.className = "eliminar";
+                eliminar.textContent = "🗑";
+                eliminar.title = "Eliminar tarea";
+
+                eliminar.addEventListener("click", function() {
+                    tareas.splice(indice, 1);
+                    renderTasks();
+                });
+
+                elemento.appendChild(checkbox);
+                elemento.appendChild(descripcion);
+                elemento.appendChild(eliminar);
+
+                listaTareas.appendChild(elemento);
+            });
+        }
+
+        // Agregar nuevas tareas
+        formulario.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            const descripcion = nuevaTarea.value.trim();
+
+            if (descripcion === "") {
+                mensaje.textContent =
+                    "Escribe una tarea antes de agregarla.";
+                nuevaTarea.focus();
+                return;
+            }
+
+            tareas.push({
+                descripcion: descripcion,
+                completada: false
+            });
+
+            nuevaTarea.value = "";
+
+            renderTasks();
+            nuevaTarea.focus();
+        });
+
+        // Mostrar la lista vacía al iniciar
+        renderTasks();
+    </script>
+
+</body>
+</html>

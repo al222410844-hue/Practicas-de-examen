@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Edad</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fceaf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .contenedor {
+            width: 350px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(97, 34, 86, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #612256;
+        }
+
+        p {
+            font-size: 15px;
+            color: #5e4358;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #eb9ed1;
+            border-radius: 7px;
+            background-color: #fff8fc;
+            color: #612256;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #612256;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #c28cb2;
+        }
+
+        #resultado {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 25px;
+            color: #612256;
+        }
+
+        #mensaje {
+            color: #d63384;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>💗 Calculadora de edad</h1>
+
+        <form id="formulario">
+
+            <p>Selecciona tu fecha de cumpleaños:</p>
+
+            <select id="dia" name="dia" required>
+                <option value="">Día</option>
+            </select>
+
+            <select id="mes" name="mes" required>
+                <option value="">Mes</option>
+            </select>
+
+            <select id="anio" name="anio" required>
+                <option value="">Año</option>
+            </select>
+
+            <input type="submit" value="Calcular edad">
+
+        </form>
+
+        <p id="resultado"></p>
+        <p id="mensaje"></p>
+
+    </div>
+
+    <script>
+        // Obtener los elementos del formulario
+        const dia = document.getElementById("dia");
+        const mes = document.getElementById("mes");
+        const anio = document.getElementById("anio");
+
+        // Agregar los días
+        for (let i = 1; i <= 31; i++) {
+            let opcion = document.createElement("option");
+            opcion.value = i;
+            opcion.textContent = i;
+            dia.appendChild(opcion);
+        }
+
+        // Agregar los meses
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril",
+            "Mayo", "Junio", "Julio", "Agosto",
+            "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        for (let i = 0; i < meses.length; i++) {
+            let opcion = document.createElement("option");
+            opcion.value = i;
+            opcion.textContent = meses[i];
+            mes.appendChild(opcion);
+        }
+
+        // Agregar los años
+        let actual = new Date().getFullYear();
+
+        for (let i = actual; i >= 1900; i--) {
+            let opcion = document.createElement("option");
+            opcion.value = i;
+            opcion.textContent = i;
+            anio.appendChild(opcion);
+        }
+
+        // Calcular la edad al enviar el formulario
+        document.getElementById("formulario").addEventListener("submit",
+            function(event) {
+
+                event.preventDefault();
+
+                let resultado = document.getElementById("resultado");
+                let mensaje = document.getElementById("mensaje");
+
+                resultado.textContent = "";
+                mensaje.textContent = "";
+
+                if (dia.value === "" ||
+                    mes.value === "" ||
+                    anio.value === "") {
+
+                    mensaje.textContent =
+                        "Selecciona tu fecha de nacimiento.";
+                    return;
+                }
+
+                let d = Number(dia.value);
+                let m = Number(mes.value);
+                let a = Number(anio.value);
+
+                let nacimiento = new Date(a, m, d);
+                let hoy = new Date();
+
+                // Validar que la fecha exista
+                if (nacimiento.getFullYear() !== a ||
+                    nacimiento.getMonth() !== m ||
+                    nacimiento.getDate() !== d) {
+
+                    mensaje.textContent = "La fecha no es válida.";
+                    return;
+                }
+
+                // Validar que no sea una fecha futura
+                if (nacimiento > hoy) {
+                    mensaje.textContent =
+                        "La fecha no puede ser futura.";
+                    return;
+                }
+
+                // Calcular años y meses
+                let anios = hoy.getFullYear() - a;
+                let mesesEdad = hoy.getMonth() - m;
+
+                if (hoy.getDate() < d) {
+                    mesesEdad--;
+                }
+
+                if (mesesEdad < 0) {
+                    anios--;
+                    mesesEdad += 12;
+                }
+
+                resultado.textContent =
+                    "Tú tienes " + anios + " años " +
+                    mesesEdad + " meses de edad";
+            }
+        );
+    </script>
+
+</body>
+</html>
