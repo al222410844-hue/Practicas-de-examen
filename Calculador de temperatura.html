@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor de Temperatura</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaf5e9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .contenedor {
+            background-color: white;
+            width: 90%;
+            max-width: 520px;
+            padding: 28px;
+            border: 1px solid #c8e6c9;
+            border-radius: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.12);
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .subtitulo {
+            color: #718071;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #355b39;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .formulario {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        input[type="number"], select {
+            padding: 11px;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: white;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 85px;
+            box-sizing: border-box;
+        }
+
+        select {
+            flex: 1;
+            min-width: 110px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #43a047;
+        }
+
+        input[type="submit"] {
+            padding: 11px 18px;
+            border: none;
+            border-radius: 8px;
+            background-color: #43a047;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover:not(:disabled) {
+            background-color: #2e7d32;
+        }
+
+        input[type="submit"]:disabled {
+            background-color: #a5b8a5;
+            cursor: not-allowed;
+        }
+
+        #resultado {
+            color: #2e7d32;
+            background-color: #f0f8f0;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 25px;
+            overflow-wrap: anywhere;
+        }
+
+        #mensaje {
+            color: #c0392b;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        .pie {
+            text-align: center;
+            color: #829182;
+            font-size: 12px;
+            margin-top: 22px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <h1>🌿 Convertidor de temperatura</h1>
+
+        <p class="subtitulo">
+            Convierte temperaturas de forma rápida y sencilla.
+        </p>
+
+        <form id="formulario">
+
+            <label for="temperatura">
+                Ingresa la temperatura:
+            </label>
+
+            <div class="formulario">
+
+                <input
+                    type="number"
+                    id="temperatura"
+                    name="temperatura"
+                    placeholder="0.00"
+                    step="any"
+                    required
+                >
+
+                <select id="origen" name="origen" required>
+                    <option value="">Unidad de origen</option>
+                    <option value="Celsius">Celsius (°C)</option>
+                    <option value="Fahrenheit">Fahrenheit (°F)</option>
+                    <option value="Kelvin">Kelvin (K)</option>
+                </select>
+
+                <select id="destino" name="destino" required>
+                    <option value="">Unidad de destino</option>
+                    <option value="Celsius">Celsius (°C)</option>
+                    <option value="Fahrenheit">Fahrenheit (°F)</option>
+                    <option value="Kelvin">Kelvin (K)</option>
+                </select>
+
+                <input
+                    type="submit"
+                    id="convertir"
+                    value="Convertir"
+                    disabled
+                >
+
+            </div>
+
+        </form>
+
+        <p id="resultado"></p>
+        <p id="mensaje"></p>
+
+        <p class="pie">
+            Cada pequeño cálculo cuenta 💚
+        </p>
+
+    </div>
+
+    <script>
+        // Obtener los elementos del formulario
+        const temperatura = document.getElementById("temperatura");
+        const origen = document.getElementById("origen");
+        const destino = document.getElementById("destino");
+        const convertir = document.getElementById("convertir");
+        const formulario = document.getElementById("formulario");
+        const resultado = document.getElementById("resultado");
+        const mensaje = document.getElementById("mensaje");
+
+        // Validar los campos y habilitar el botón
+        function revisarCampos() {
+
+            const valorEscrito = temperatura.value.trim() !== "";
+            const valor = Number(temperatura.value);
+
+            const temperaturaValida =
+                valorEscrito && Number.isFinite(valor);
+
+            const unidadesSeleccionadas =
+                origen.value !== "" && destino.value !== "";
+
+            let valorValido = temperaturaValida;
+
+            // Validar que no sea inferior al cero absoluto
+            if (temperaturaValida) {
+
+                if (origen.value === "Celsius" && valor < -273.15) {
+                    valorValido = false;
+                }
+
+                if (origen.value === "Fahrenheit" && valor < -459.67) {
+                    valorValido = false;
+                }
+
+                if (origen.value === "Kelvin" && valor < 0) {
+                    valorValido = false;
+                }
+            }
+
+            convertir.disabled =
+                !(temperaturaValida &&
+                  unidadesSeleccionadas &&
+                  valorValido);
+
+            resultado.textContent = "";
+            mensaje.textContent = "";
+
+            if (valorEscrito && temperaturaValida && !valorValido) {
+                mensaje.textContent =
+                    "La temperatura está por debajo del cero absoluto.";
+            }
+        }
+
+        // Revisar los cambios de los tres campos
+        temperatura.addEventListener("input", revisarCampos);
+        origen.addEventListener("change", revisarCampos);
+        destino.addEventListener("change", revisarCampos);
+
+        // Procesar la conversión
+        formulario.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            revisarCampos();
+
+            if (convertir.disabled) {
+                return;
+            }
+
+            const valor = Number(temperatura.value);
+            const unidadOrigen = origen.value;
+            const unidadDestino = destino.value;
+
+            let celsius;
+
+            // Convertir la temperatura a Celsius
+            if (unidadOrigen === "Celsius") {
+                celsius = valor;
+            } else if (unidadOrigen === "Fahrenheit") {
+                celsius = (valor - 32) * 5 / 9;
+            } else {
+                celsius = valor - 273.15;
+            }
+
+            let conversion;
+
+            // Convertir de Celsius a la unidad de destino
+            if (unidadDestino === "Celsius") {
+                conversion = celsius;
+            } else if (unidadDestino === "Fahrenheit") {
+                conversion = (celsius * 9 / 5) + 32;
+            } else {
+                conversion = celsius + 273.15;
+            }
+
+            resultado.textContent =
+                valor + " " + unidadOrigen + " equivale a " +
+                Number(conversion.toFixed(2)) + " " + unidadDestino + ".";
+
+            mensaje.textContent = "";
+        });
+
+        // Ocultar el espacio del resultado al iniciar
+        resultado.textContent = "";
+    </script>
+
+</body>
+</html>
